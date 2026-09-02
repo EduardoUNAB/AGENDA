@@ -1,32 +1,107 @@
 schema: spec-driven
-
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
-
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
-
-# Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+githubCopilot:
+ cloudAgent: true
+context: |
+ Proyecto: AGENDA.
+ Objetivo:
+ Desarrollar una aplicación web sencilla para registrar y consultar
+ personas de una agenda.
+ Arquitectura oficial:
+ Consultar docs/architecture.md antes de proponer, diseñar o
+ implementar cualquier cambio.
+ Tecnologías aprobadas:
+ - Python 3.11 o superior.
+ - FastAPI para la aplicación web y la API.
+ - Uvicorn para ejecutar la aplicación.
+ - SQLite mediante el módulo sqlite3 de Python.
+ - HTML y JavaScript básicos para la interfaz.
+ - pytest para las pruebas automatizadas.
+ Componentes:
+ - Interfaz web.
+ - Aplicación FastAPI.
+ - Acceso a datos SQLite.
+ Organización prevista:
+ - app/main.py contiene la aplicación FastAPI, los endpoints y
+ las validaciones básicas.
+ - app/database.py concentra las conexiones y sentencias SQL.
+ - app/static/index.html contiene la interfaz web.
+ - tests/test_agenda.py contiene las pruebas automatizadas.
+ Reglas arquitectónicas:
+ - La interfaz web debe comunicarse con la aplicación FastAPI.
+ - La interfaz no puede acceder directamente a SQLite.
+ - Las sentencias SQL deben estar únicamente en app/database.py.
+ - app/main.py no debe contener sentencias SQL.
+ - Utilizar sqlite3 directamente para acceder a SQLite.
+ - No añadir nuevas tecnologías o dependencias sin aprobación humana.
+ - Mantener el desarrollo limitado a las historias aprobadas.
+ - Cada historia debe incluir pruebas automatizadas.
+ - Utilizar el término persona para la entidad gestionada.
+ - El actor de las historias es el propietario de la agenda.
+ Alcance del primer incremento:
+ - Registrar personas.
+ - Listar las personas registradas.
+ - Conservar los datos en SQLite.
+ - Mostrar el formulario y el listado en una interfaz web sencilla.
+ Fuera del alcance:
+ - Autenticación y autorización.
+ - Modificación y eliminación de personas.
+ - Búsqueda, filtros y paginación.
+ - Importación y exportación de datos.
+ - Despliegue en producción.
+ - Incorporación de frameworks adicionales.
+rules:
+ proposal:
+ - Indicar con claridad el objetivo y el alcance del cambio.
+ - Identificar expresamente las funcionalidades que quedan fuera.
+ - Indicar si el cambio afecta a docs/architecture.md.
+ - No proponer tecnologías que no estén aprobadas en el contexto.
+ specs:
+ - Escribir los escenarios en formato Given/When/Then.
+ - Describir comportamientos observables y verificables.
+ - Mantener los requisitos independientes de los detalles de
+implementación.
+ - Utilizar persona y personas para la entidad gestionada.
+ - Utilizar propietario de la agenda para el actor.
+ - Incluir escenarios básicos de funcionamiento correcto y de
+error.
+ design:
+ - Leer y respetar docs/architecture.md.
+ - Explicar la participación de la interfaz web, la aplicación
+FastAPI y el acceso a datos.
+ - Mantener las sentencias SQL únicamente en app/database.py.
+ - Identificar los ficheros que deberán crearse o modificarse.
+ - No introducir componentes, capas, tecnologías o dependencias
+adicionales.
+ - Indicar cómo se probará el cambio.
+ - Justificar cualquier desviación respecto a la arquitectura
+aprobada.
+ tasks:
+ - Organizar las tareas por componente o fichero.
+ - Dividir la implementación en tareas pequeñas y verificables.
+ - Incluir las tareas necesarias para las pruebas automatizadas.
+ - Incluir la ejecución final de pytest.
+ - Incluir una comprobación final de conformidad con
+docs/architecture.md.
+ - No añadir tareas que estén fuera del alcance aprobado.
+operations:
+ apply:
+ guidance:
+ - Leer docs/architecture.md antes de modificar el código.
+ - Leer todos los artefactos OpenSpec del cambio.
+ - Implementar únicamente las tareas aprobadas.
+ - Mantener la separación entre interfaz, aplicación y acceso a
+datos.
+ - Mantener todas las sentencias SQL en app/database.py.
+ - No incorporar tecnologías ni dependencias nuevas.
+ - Ejecutar pytest después de implementar el cambio.
+ - No marcar una tarea como completada sin verificarla.
+ - Detener la implementación si la especificación contradice la
+arquitectura.
+ archive:
+ guidance:
+ - Comprobar que la implementación respeta docs/architecture.md.
+ - Confirmar que todas las tareas aprobadas están completadas.
+ - Confirmar que pytest se ejecuta correctamente.
+ - Comprobar que no se han añadido funcionalidades fuera del
+alcance.
+ - Resumir el resultado de la implementación antes de archivar.
