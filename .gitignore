@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.coverage
+agenda.db
+
+*.db
+*.sqlite
+*.sqlite3
