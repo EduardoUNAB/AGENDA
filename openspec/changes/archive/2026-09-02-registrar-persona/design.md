@@ -1,7 +1,7 @@
 ## Context
 
-El repositorio contiene la historia HU-01, el modelo conceptual `contact` y el
-contrato inicial del endpoint `POST /api/v1/contacts`, pero todavía no tiene una
+El repositorio contiene la historia HU-01, el modelo conceptual `persona` y el
+contrato inicial del endpoint `POST /api/personas`, pero todavía no tiene una
 implementación de aplicación. La propuesta fija las decisiones funcionales que
 no estaban explícitas en la historia.
 
@@ -10,7 +10,7 @@ no estaban explícitas en la historia.
 **Goals:**
 
 - Mantener una única regla de validación compartida entre API y formulario.
-- Persistir contactos válidos y devolver errores de campo consistentes.
+- Persistir personas válidas y devolver errores de campo consistentes.
 - Hacer que el listado refleje el alta exitosa inmediatamente.
 - Cubrir los escenarios de la especificación con pruebas automatizadas.
 
@@ -22,8 +22,8 @@ no estaban explícitas en la historia.
 
 ## Decisions
 
-- **Contrato HTTP:** implementar `POST /api/v1/contacts` para recibir el objeto
-  de contacto y devolver la entidad creada con respuesta exitosa; los errores de
+- **Contrato HTTP:** implementar `POST /api/personas` para recibir el objeto
+  de persona y devolver la entidad creada con respuesta exitosa; los errores de
   validación usarán una respuesta estructurada por campo. Se mantiene el
   endpoint indicado por HU-01 en lugar de introducir una versión alternativa.
 - **Validación centralizada:** ubicar las reglas de campos obligatorios, correo,
@@ -34,7 +34,7 @@ no estaban explícitas en la historia.
   observado por el usuario.
 - **Duplicados:** normalizar correo con recorte de espacios y comparación sin
   distinguir mayúsculas antes de consultar persistencia. No se inventa una clave
-  para contactos sin correo.
+  para personas sin correo.
 - **Categoría:** representar el catálogo como valores enumerados en la validación
   y ofrecer esos cuatro valores en el formulario. El texto libre se descarta
   porque haría imposible garantizar búsquedas y consistencia.

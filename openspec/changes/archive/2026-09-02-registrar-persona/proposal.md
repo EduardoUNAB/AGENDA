@@ -28,7 +28,7 @@ Ninguna.
 
 ## Impact
 
-- Modelo de datos `contact` y persistencia.
-- Endpoint `POST /api/v1/contacts`.
+- Modelo de datos `persona` y persistencia.
+- Endpoint `POST /api/personas`.
 - Formulario de alta y listado de agenda.
 - Validaciones y pruebas del servicio de creación.
