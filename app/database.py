@@ -78,3 +78,10 @@ def list_personas() -> list[sqlite3.Row]:
             ORDER BY apellidos COLLATE NOCASE ASC, nombre COLLATE NOCASE ASC, id ASC
             """
         ).fetchall()
+
+
+def find_persona_by_id(persona_id: int) -> sqlite3.Row | None:
+    with get_connection() as connection:
+        return connection.execute(
+            "SELECT * FROM personas WHERE id = ?", (persona_id,)
+        ).fetchone()

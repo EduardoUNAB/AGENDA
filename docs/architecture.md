@@ -33,6 +33,9 @@ sistema. Las validaciones exactas se definen en HU-01.
 ## 6. API inicial
 - POST /api/personas: registrar una persona.
 - GET /api/personas: listar las personas.
+- GET /api/personas/{persona_id}: consultar una persona por identificador (200, 404, 422, 500).
+
+El contrato formal de la API se publica en `docs/openapi.json` (OpenAPI generado por FastAPI) y puede explorarse en `/docs` (Swagger UI) y `/redoc`.
 ## 7. Organización orientativa
 app/main.py, app/api/, app/models/, app/schemas/, app/services/,
 app/repositories/, app/static/, app/templates/ y tests/.

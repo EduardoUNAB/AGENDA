@@ -48,3 +48,7 @@ class PersonaListResponse(BaseModel):
     nombre: str
     apellidos: str
     telefono: str
+
+
+class ErrorResponse(BaseModel):
+    detail: str = Field(description="Descripcion legible del error.")
