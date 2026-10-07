@@ -1,0 +1,380 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AGENDA",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/personas": {
+      "get": {
+        "tags": [
+          "personas"
+        ],
+        "summary": "Listar personas",
+        "description": "Devuelve todas las personas registradas ordenadas por apellidos y nombre.",
+        "operationId": "list_personas_api_personas_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PersonaListResponse"
+                  },
+                  "type": "array",
+                  "title": "Response List Personas Api Personas Get"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error de persistencia.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "personas"
+        ],
+        "summary": "Registrar una persona",
+        "description": "Registra una nueva persona en la agenda y devuelve la persona creada con su identificador.",
+        "operationId": "create_persona_api_personas_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonaCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonaResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "El correo ya esta registrado."
+          },
+          "500": {
+            "description": "Error de persistencia.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/personas/{persona_id}": {
+      "get": {
+        "tags": [
+          "personas"
+        ],
+        "summary": "Consultar una persona",
+        "description": "Obtiene todos los datos de una persona registrada en la agenda a partir de su identificador. El identificador debe ser un entero positivo.",
+        "operationId": "get_persona_api_personas__persona_id__get",
+        "parameters": [
+          {
+            "name": "persona_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "description": "Identificador numerico de la persona. Solo admite enteros positivos.",
+              "examples": [
+                1
+              ],
+              "title": "Persona Id"
+            },
+            "description": "Identificador numerico de la persona. Solo admite enteros positivos."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonaResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Persona no encontrada.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error de persistencia.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponse": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "description": "Descripcion legible del error."
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "ErrorResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PersonaCreate": {
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "title": "Nombre",
+            "default": ""
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos",
+            "default": ""
+          },
+          "fecha_nacimiento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Nacimiento"
+          },
+          "correo": {
+            "type": "string",
+            "title": "Correo",
+            "default": ""
+          },
+          "telefono": {
+            "type": "string",
+            "title": "Telefono",
+            "default": ""
+          },
+          "direccion": {
+            "type": "string",
+            "title": "Direccion",
+            "default": ""
+          },
+          "categoria": {
+            "type": "string",
+            "title": "Categoria",
+            "default": ""
+          },
+          "comentarios": {
+            "type": "string",
+            "title": "Comentarios",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "title": "PersonaCreate"
+      },
+      "PersonaListResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "telefono": {
+            "type": "string",
+            "title": "Telefono"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "nombre",
+          "apellidos",
+          "telefono"
+        ],
+        "title": "PersonaListResponse"
+      },
+      "PersonaResponse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "fecha_nacimiento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fecha Nacimiento"
+          },
+          "correo": {
+            "type": "string",
+            "title": "Correo"
+          },
+          "telefono": {
+            "type": "string",
+            "title": "Telefono"
+          },
+          "direccion": {
+            "type": "string",
+            "title": "Direccion"
+          },
+          "categoria": {
+            "type": "string",
+            "title": "Categoria"
+          },
+          "comentarios": {
+            "type": "string",
+            "title": "Comentarios"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "nombre",
+          "apellidos",
+          "fecha_nacimiento",
+          "correo",
+          "telefono",
+          "direccion",
+          "categoria",
+          "comentarios"
+        ],
+        "title": "PersonaResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

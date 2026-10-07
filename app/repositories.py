@@ -15,6 +15,10 @@ class PersonaRepository:
     def list_all(self) -> list[Persona]:
         return [self._to_persona(row) for row in database.list_personas()]
 
+    def get_by_id(self, persona_id: int) -> Persona | None:
+        row = database.find_persona_by_id(persona_id)
+        return self._to_persona(row) if row is not None else None
+
     @staticmethod
     def _to_persona(row: sqlite3.Row) -> Persona:
         from datetime import date

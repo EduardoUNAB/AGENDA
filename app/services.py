@@ -25,6 +25,10 @@ class PersistenceError(Exception):
     pass
 
 
+class PersonaNotFoundError(Exception):
+    pass
+
+
 class PersonaService:
     def __init__(self, repository: PersonaRepository | None = None):
         self.repository = repository or PersonaRepository()
@@ -49,6 +53,15 @@ class PersonaService:
             return self.repository.list_all()
         except sqlite3.Error as error:
             raise PersistenceError from error
+
+    def get_by_id(self, persona_id: int) -> Persona:
+        try:
+            persona = self.repository.get_by_id(persona_id)
+        except sqlite3.Error as error:
+            raise PersistenceError from error
+        if persona is None:
+            raise PersonaNotFoundError
+        return persona
 
     @staticmethod
     def _validate(data: PersonaCreate) -> dict[str, str | None]:
