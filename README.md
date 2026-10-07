@@ -18,9 +18,18 @@ Fase inicial. Práctica P4: configuración de la fábrica de software
 (repositorio, backlog, Sprint 1 y primer pipeline de CI).
 
 ## Integración continua
-El workflow `.github/workflows/ci.yml` se ejecuta en cada `push` y cada
-`pull request` sobre `main`, y verifica la presencia de la documentación
-mínima del repositorio.
+El workflow **CI AGENDA** (`.github/workflows/ci-agenda.yml`) se ejecuta en
+cada Pull Request hacia `main`, en cada `push` a `main` y manualmente. El job
+**Pruebas AGENDA** instala `requirements-dev.txt`, ejecuta `pytest` y conserva
+el informe JUnit como artefacto `resultados-pruebas-agenda`, también cuando
+fallan las pruebas. Evidencias de ejecución en `docs/p10-pipelines.md`.
+
+Para reproducirlo en local:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
 
 ## Estructura prevista
 - `/docs` — documentación funcional y técnica
