@@ -1,0 +1,48 @@
+name: CI AGENDA
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    name: Pruebas AGENDA
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v6
+
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Ejecutar pruebas
+        run: |
+          mkdir -p reports
+          python -m pytest -q --junitxml=reports/junit.xml
+
+      - name: Conservar informe
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-pruebas-agenda
+          path: reports/junit.xml
+          if-no-files-found: warn
+          retention-days: 7
