@@ -59,7 +59,16 @@ Las pruebas usan TestClient y SQLite temporal por prueba (`tests/conftest.py` + 
 
 ### 4. Push a `main`
 
-Pendiente: al integrar la PR #10, el evento `push` a `main` vuelve a ejecutar `CI AGENDA` sobre el código integrado. Registrar aquí su enlace, SHA y resultado.
+| Campo | Valor |
+|---|---|
+| Enlace | https://github.com/EduardoUNAB/AGENDA/actions/runs/37636564123 |
+| Commit | `dffdd675ecad168dfa87dd08b9c63897ecf318c6` – Merge pull request #10 from EduardoUNAB/feature/p10-pipeline |
+| Evento | `push` a `main` |
+| Duración | 16 s (job) |
+| Resultado | ✅ Correcto |
+| Pruebas | 29 passed, 0 failed, 0 errors |
+| Informe | Artefacto `resultados-pruebas-agenda` subido |
+| Observaciones | Verificación del código integrado tras fusionar las PR #8 (P8) y #10 (P10). |
 
 ## Comprobación obligatoria antes de integrar
 
