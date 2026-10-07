@@ -7,3 +7,4 @@ agenda.db
 *.db
 *.sqlite
 *.sqlite3
+reports/
