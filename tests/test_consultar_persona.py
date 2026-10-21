@@ -72,7 +72,7 @@ def test_get_person_with_empty_optional_fields(api_client):
 def test_get_nonexistent_person_returns_404(api_client):
     response = api_client.get("/api/personas/999")
 
-    assert response.status_code == 404
+    assert response.status_code == 200  # FALLO DELIBERADO P11 4.9
     assert response.json() == {"detail": "Persona no encontrada"}
 
 
