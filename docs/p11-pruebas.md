@@ -59,4 +59,22 @@ El 100 % de líneas **no** demuestra que se cumplan todos los requisitos: mide q
 
 ## Ejecuciones en GitHub Actions
 
-Se rellena con las ejecuciones de la PR.
+Todas por el evento `pull_request` (PR #13 → `main`), con el artefacto `informes-pruebas` descargado y revisado.
+
+| # | Enlace | Commit | Duración | Resultado | Pruebas | Informe |
+|---|---|---|---|---|---|---|
+| 1 | [run 39605284002](https://github.com/EduardoUNAB/AGENDA/actions/runs/39605284002) | `c5c8c6f` test: ampliar pruebas automaticas AGENDA y medir cobertura en CI | 16 s | ✅ Correcto | 41 passed, 0 failed, 0 errors | `junit.xml` `tests="41" failures="0"` y `coverage.xml` `line-rate="1"` (100 %) |
+| 2 | [run 39605437613](https://github.com/EduardoUNAB/AGENDA/actions/runs/39605437613) | `fc2ad52` test: demostrar fallo de verificacion | 14 s | ❌ Fallido (esperado) | 1 failed, 40 passed | `junit.xml` `failures="1"`; se subió igual gracias a `if: always()` |
+| 3 | [run 39605566940](https://github.com/EduardoUNAB/AGENDA/actions/runs/39605566940) | `ba58719` test: corregir la asercion del fallo de verificacion | 16 s | ✅ Correcto | 41 passed | Artefacto disponible |
+
+### Fallo controlado (§4.9)
+
+En PA-06 se cambió de forma temporal `assert response.status_code == 404` por `== 200`. En local dio `1 failed, 40 passed`. En CI, el paso **Ejecutar pruebas y medir cobertura** falló con:
+
+```text
+E       assert 404 == 200
+FAILED tests/test_consultar_persona.py::test_get_nonexistent_person_returns_404 - assert 404 == 200
+1 failed, 40 passed in 1.30s
+```
+
+El valor obtenido fue 404 y el esperado, 200. La PR mostró el check `Pruebas AGENDA` fallido. Después se restauró la aserción (ejecución 3, en verde). La PR no se fusionó mientras tenía el fallo.
