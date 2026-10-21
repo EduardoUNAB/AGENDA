@@ -33,16 +33,20 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements-dev.txt
 
-      - name: Ejecutar pruebas
+      - name: Ejecutar pruebas y medir cobertura
         run: |
           mkdir -p reports
-          python -m pytest -q --junitxml=reports/junit.xml
+          python -m pytest -q --junitxml=reports/junit.xml \
+            --cov=app \
+            --cov-report=xml:reports/coverage.xml \
+            --cov-report=term-missing \
+            --cov-fail-under=80
 
-      - name: Conservar informe
-        if: ${{ always() }}
+      - name: Publicar resultados
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: resultados-pruebas-agenda
-          path: reports/junit.xml
+          name: informes-pruebas
+          path: reports/
           if-no-files-found: warn
           retention-days: 7
